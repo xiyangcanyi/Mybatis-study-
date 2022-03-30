@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace=绑定一个Dao/mapper接口-->
+<mapper namespace="com.zyp.dao.UserMapper1">
+
+    <!--  查询所有用户-->
+<!--    起别名-->
+<!--    <select id="getUserList" resultType="User">-->
+<!--        select id,name,pwd as password from mybatis.user;-->
+<!--    </select>-->
+    <select id="getUserList" resultMap="map">
+        select * from mybatis.user;
+    </select>
+
+    <resultMap id="map" type="User">
+<!--        结果集映射
+        column对应数据库中的字段，property对应实体类的属性-->
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="pwd" property="password"/>
+    </resultMap>
+    <select id="getUserListById" resultType="User" parameterType="int" resultMap="map" >
+        select * from mybatis.user where id=#{id};
+    </select>
+    <insert id="addUser" parameterType="User" parameterMap="map">
+        insert into mybatis.user (id,name,pwd) values (#{id},#{name},#{pwd});
+    </insert>
+    <update id="updateByID" parameterType="User" parameterMap="map">
+        update mybatis.user
+        set name = #{name},pwd=#{pwd}
+        where id=#{id};
+    </update>
+    <delete id="deleteById" parameterType="int" parameterMap="map">
+        delete
+        from mybatis.user
+        where id=#{id};
+    </delete>
+</mapper>
